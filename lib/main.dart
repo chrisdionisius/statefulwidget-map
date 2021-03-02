@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:termometer2/Dropdown.dart';
 
 import 'inputData.dart';
 import 'log.dart';
@@ -22,10 +23,6 @@ class _MyAppState extends State<MyApp> {
 
   double _inputUser = 0;
 
-  double _kelvin = 0;
-
-  double _reamur = 0;
-
   final inputController = TextEditingController();
 
   String _newValue = "Kelvin";
@@ -43,6 +40,12 @@ class _MyAppState extends State<MyApp> {
         _result = (4 / 5) * _inputUser;
         listViewItem.add("Reamur : " + _result.toString());
       }
+    });
+  }
+
+  void stateMethod(String changeValue) {
+    setState(() {
+      _newValue = changeValue;
     });
   }
 
@@ -65,19 +68,10 @@ class _MyAppState extends State<MyApp> {
               inputData(inputController: inputController),
               SizedBox(
                 width: double.infinity,
-                child: DropdownButton<String>(
-                  items: listItem.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  value: _newValue,
-                  onChanged: (String changeValue) {
-                    setState(() {
-                      _newValue = changeValue;
-                    });
-                  },
+                child: Dropdown(
+                  listItem: listItem,
+                  stateMethod: stateMethod,
+                  newValue: _newValue,
                 ),
               ),
               outputData(result: _result),
